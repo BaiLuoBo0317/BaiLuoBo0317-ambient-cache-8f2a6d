@@ -3,7 +3,7 @@ class BaiLuoBoCatalog extends ComicSource {
 
     key = "blb0317_catalog_8f2a6d"
 
-    version = "1.0.0"
+    version = "1.0.1"
 
     minAppVersion = "1.4.0"
 

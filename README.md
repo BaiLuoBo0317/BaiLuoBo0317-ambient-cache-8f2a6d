@@ -20,7 +20,7 @@ Venera 的“图源列表”需要一个可公开访问的 JSON 地址，不能�
 如果使用 GitHub 仓库，可填写类似：
 
 ```text
-https://cdn.jsdelivr.net/gh/BaiLuoBo0317/BaiLuoBo0317-ambient-cache-8f2a6d@main/index.json
+https://raw.githubusercontent.com/BaiLuoBo0317/BaiLuoBo0317-ambient-cache-8f2a6d/main/index.json
 ```
 
 更新时，将脚本与 `index.json` 中的版本号同步递增。
