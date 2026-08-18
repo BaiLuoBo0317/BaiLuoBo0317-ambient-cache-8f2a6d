@@ -3,7 +3,7 @@ class BaiLuoBoCatalog extends ComicSource {
 
     key = "blb0317_catalog_8f2a6d"
 
-    version = "1.0.4"
+    version = "1.0.5"
 
     minAppVersion = "1.4.0"
 
@@ -223,6 +223,32 @@ class BaiLuoBoCatalog extends ComicSource {
         return { searchId, maxPage }
     }
 
+    _collectChapterList(doc, visibleChapters) {
+        let maxChapterId = -1
+        const chapterList = doc.querySelector("#list-chapter")
+        if (!chapterList) return maxChapterId
+
+        for (const link of chapterList.querySelectorAll("a[href*='/chapter']")) {
+            const href = link.attributes["href"] || ""
+            const match = href.match(/chapter(\d+)\.html/)
+            if (!match) continue
+            const chapterId = Number(match[1])
+            maxChapterId = Math.max(maxChapterId, chapterId)
+            visibleChapters[match[1]] = (link.attributes["title"] || link.text || `章节 ${chapterId + 1}`).trim()
+        }
+        return maxChapterId
+    }
+
+    _parseChapterCatalogMaxPage(doc) {
+        let maxPage = 1
+        for (const link of doc.querySelectorAll("#pagination a[href]")) {
+            const href = (link.attributes["href"] || "").replaceAll("&amp;", "&")
+            const match = href.match(/[?&]p=(\d+)/)
+            if (match) maxPage = Math.max(maxPage, Number(match[1]))
+        }
+        return maxPage
+    }
+
     category = {
         title: "飞翔漫画网",
         parts: [
@@ -304,21 +330,38 @@ class BaiLuoBoCatalog extends ComicSource {
                 .trim()
 
             const visibleChapters = {}
-            let maxChapterId = -1
-            const chapterList = doc.querySelector("#list-chapter")
-            if (chapterList) {
-                for (const link of chapterList.querySelectorAll("a[href*='/chapter']")) {
-                    const href = link.attributes["href"] || ""
-                    const match = href.match(/chapter(\d+)\.html/)
-                    if (!match) continue
-                    const chapterId = Number(match[1])
-                    maxChapterId = Math.max(maxChapterId, chapterId)
-                    visibleChapters[match[1]] = (link.attributes["title"] || link.text || `章节 ${chapterId + 1}`).trim()
+            let maxChapterId = this._collectChapterList(doc, visibleChapters)
+
+            const staticTitles = this.staticChapterCatalogs[String(id)]
+            if (staticTitles) {
+                for (let chapterId = 0; chapterId < staticTitles.length; chapterId++) {
+                    visibleChapters[String(chapterId)] = staticTitles[chapterId]
+                }
+                maxChapterId = Math.max(maxChapterId, staticTitles.length - 1)
+            } else {
+                // Catalog pages contain 50 real entries each. Fetch page ranges in small
+                // concurrent batches: a 400-chapter title needs about 9 requests, not 400.
+                const maxCatalogPage = this._parseChapterCatalogMaxPage(doc)
+                const batchSize = 8
+                for (let firstPage = 2; firstPage <= maxCatalogPage; firstPage += batchSize) {
+                    const pages = []
+                    for (let page = firstPage; page < firstPage + batchSize && page <= maxCatalogPage; page++) {
+                        pages.push(page)
+                    }
+                    const pageDocuments = await Promise.all(pages.map((page) =>
+                        this._getDocument(`${this.baseUrl}/novel${id}/?p=${page}`)
+                    ))
+                    for (const pageDocument of pageDocuments) {
+                        maxChapterId = Math.max(
+                            maxChapterId,
+                            this._collectChapterList(pageDocument, visibleChapters)
+                        )
+                        pageDocument.dispose()
+                    }
                 }
             }
 
-            // The site only emits the first 50 chapters in #list-chapter.
-            // Newest chapter links elsewhere on the page reveal the real maximum id.
+            // Also capture newly published links shown outside the paginated catalog.
             for (const link of doc.querySelectorAll("a[href*='/chapter']")) {
                 const href = link.attributes["href"] || ""
                 const match = href.match(/chapter(\d+)\.html/)
@@ -328,17 +371,6 @@ class BaiLuoBoCatalog extends ComicSource {
                 if (!visibleChapters[match[1]]) {
                     visibleChapters[match[1]] = (link.attributes["title"] || link.text || "").trim()
                 }
-            }
-
-            // The site collapses older entries and does not expose a complete catalog in
-            // the initial HTML. Use the audited canonical chain for supported titles so
-            // Venera does not need to issue more than a hundred requests on every open.
-            const staticTitles = this.staticChapterCatalogs[String(id)]
-            if (staticTitles) {
-                for (let chapterId = 0; chapterId < staticTitles.length; chapterId++) {
-                    visibleChapters[String(chapterId)] = staticTitles[chapterId]
-                }
-                maxChapterId = Math.max(maxChapterId, staticTitles.length - 1)
             }
 
             const chapters = {}
