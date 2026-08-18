@@ -3,7 +3,7 @@ class BaiLuoBoCatalog extends ComicSource {
 
     key = "blb0317_catalog_8f2a6d"
 
-    version = "1.0.1"
+    version = "1.0.2"
 
     minAppVersion = "1.4.0"
 
@@ -170,15 +170,37 @@ class BaiLuoBoCatalog extends ComicSource {
                 .replace(/^\s*漫画介绍\s*/, "")
                 .trim()
 
-            const chapters = {}
+            const visibleChapters = {}
+            let maxChapterId = -1
             const chapterList = doc.querySelector("#list-chapter")
             if (chapterList) {
                 for (const link of chapterList.querySelectorAll("a[href*='/chapter']")) {
                     const href = link.attributes["href"] || ""
                     const match = href.match(/chapter(\d+)\.html/)
                     if (!match) continue
-                    chapters[match[1]] = (link.attributes["title"] || link.text || `第 ${match[1]} 章`).trim()
+                    const chapterId = Number(match[1])
+                    maxChapterId = Math.max(maxChapterId, chapterId)
+                    visibleChapters[match[1]] = (link.attributes["title"] || link.text || `章节 ${chapterId + 1}`).trim()
                 }
+            }
+
+            // The site only emits the first 50 chapters in #list-chapter.
+            // Newest chapter links elsewhere on the page reveal the real maximum id.
+            for (const link of doc.querySelectorAll("a[href*='/chapter']")) {
+                const href = link.attributes["href"] || ""
+                const match = href.match(/chapter(\d+)\.html/)
+                if (!match) continue
+                const chapterId = Number(match[1])
+                maxChapterId = Math.max(maxChapterId, chapterId)
+                if (!visibleChapters[match[1]]) {
+                    visibleChapters[match[1]] = (link.attributes["title"] || link.text || "").trim()
+                }
+            }
+
+            const chapters = {}
+            for (let chapterId = 0; chapterId <= maxChapterId; chapterId++) {
+                const id = String(chapterId)
+                chapters[id] = visibleChapters[id] || `章节 ${chapterId + 1}`
             }
 
             const tags = {}
