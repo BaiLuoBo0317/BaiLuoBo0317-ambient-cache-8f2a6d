@@ -3,7 +3,7 @@ class BaiLuoBoCatalog extends ComicSource {
 
     key = "blb0317_catalog_8f2a6d"
 
-    version = "1.0.3"
+    version = "1.0.4"
 
     minAppVersion = "1.4.0"
 
@@ -12,6 +12,139 @@ class BaiLuoBoCatalog extends ComicSource {
     baseUrl = "https://ffppt.com"
 
     _searchSessions = {}
+
+    staticChapterCatalogs = {
+        "30203": [
+            "序章 废物花园出品必属精品",
+            "1 你好~我是楚生~",
+            "3 想想办法搞个大的！",
+            "4 我TM社保！！！",
+            "5 你们不要再打喇！",
+            "6 多人副本",
+            "7 人炉子",
+            "8 我寻思这头没人要呢",
+            "增生番外 中元节【十五篇】",
+            "9 ：‌҉",
+            "公告 付费公告",
+            "10 仙儿",
+            "11 8二二D",
+            "12 金丹",
+            "13 生吞活剥",
+            "14 痔地有声",
+            "增生番外 喵喵全知夜",
+            "15 私生饭",
+            "增生番外 喵喵全知夜【谁掉个头？】",
+            "16 这才是为师的完全体",
+            "17 拜见老天师！",
+            "18 我们中间出了一个奸细",
+            "19 污秽—体",
+            "20 以形补形",
+            "【孙奶奶甄选】 新卷福利前列仙谷子缓释片来袭",
+            "21 露出破腚",
+            "22 破法",
+            "活动 “湿人大赛”",
+            "23 阿sir√2",
+            "24 工业八路",
+            "25 借条裤子~谢谢~",
+            "26 我爱电驴！我爱电驴!",
+            "27 九境与九法",
+            "28 好大的蘑菇啊！",
+            "29 前有狗，但是菇",
+            "30 仙菇",
+            "31 口感爽滑香嫩弹牙",
+            "32 请勿滥用药物",
+            "增生番外 【发火炎焱燚焱炎火发】",
+            "33 还有增大天王和增粗天王",
+            "34 安敢在此饶舌？",
+            "35 汝他娘之",
+            "36 会议持续进行",
+            "37 不地道",
+            "38 天行有常",
+            "39 观shi不语真君子",
+            "40 欢欢喜喜进征兆",
+            "41 小夫! 我出来了！！",
+            "42 捕猎",
+            "43 合2.0",
+            "44 敵将討ち取ったり！",
+            "44.5 新春騒话魔力赏",
+            "45 宰人航天技术",
+            "46 魃",
+            "47 看来又有人要断臂了哈哈",
+            "48 他好我也好",
+            "49 你什么时候藏的？",
+            "喵速报 本漫画将会在下一话完结！记得清明节来看！完结是指第一",
+            "50 干的漂亮！艾里克！",
+            "招魂 嘻嘻嘻",
+            "51 第二季！开！",
+            "52 小喷泉",
+            "53 扒衣老爷",
+            "54 事已至此，先吸点把",
+            "55 VCR准备中",
+            "56 禁止化形",
+            "57 霸！【ba】",
+            "58 气泡音与游神",
+            "59 Despacito",
+            "60 阵眼儿",
+            "61 楚生在二次元",
+            "我知道你很急！ bw现场返图来咯",
+            "62 脐带绕颈，总裁欢迎回家与青春的梦",
+            "63 言多必失阿bro",
+            "64 言多必失啊~bro",
+            "一周年活动 中奖名单",
+            "65 来！你再躲一个我看看！",
+            "66 66",
+            "67 打赢坐牢",
+            "68 快把小楚拉出来！",
+            "69 春风吹又生",
+            "80 小绿帽2电脑城首负",
+            "81 保安+1",
+            "82 保安对保安对保安",
+            "83 黑店",
+            "84 我要进来啦！",
+            "85 Yesterday once more",
+            "86 我是谁我在那？我要干哈？",
+            "87 出口",
+            "鸭可夫x前列仙 友情客串",
+            "88 畜生啊！！！！",
+            "89 关门",
+            "90 代价",
+            "91 【   】",
+            "92 翻坛倒峒",
+            "93 Q&A",
+            "94 你说-- --【伸话筒】",
+            "95 那我问你",
+            "96 陈劲男的底牌！",
+            "番外 前列仙x逃离鸭科夫【1】",
+            "番外 前列仙x逃离鸭科夫【2】",
+            "97 避难",
+            "番外 登霞九法x逃离鸭科夫【3】",
+            "番外 登霞九法x逃离鸭科夫【4】",
+            "马年就看前列仙 马年就玩鸭可夫",
+            "98 辛苦了！楚圣！",
+            "99 主角登场",
+            "100 竟然是100话!?",
+            "我也有100话可以看吗？ 能连载一伯话的漫画指定有些说法~",
+            "101 还有高手？",
+            "102 102",
+            "103 啊朋友再见",
+            "104 贪",
+            "105 金价大跌",
+            "106 机不可失啊朋友",
+            "107 干的漂亮，中出小子！",
+            "108 一群（   ）",
+            "109 烦死了",
+            "110 110",
+            "112 【】仔派对？",
+            "113 痴",
+            "114 耗材",
+            "115 天倾",
+            "116 电驴看病去了今日无题头",
+            "117 我傻了兄弟",
+            "118 颜艺专场",
+            "119 《登霞九法》动画化确认！",
+            "120 这都什么台词啊"
+        ]
+    }
 
     get requestHeaders() {
         return {
@@ -88,51 +221,6 @@ class BaiLuoBoCatalog extends ComicSource {
             if (pageMatch) maxPage = Math.max(maxPage, Number(pageMatch[1]) + 1)
         }
         return { searchId, maxPage }
-    }
-
-    async _loadVerifiedHiddenChapters(comicId, visibleChapters, maxChapterId) {
-        if (maxChapterId < 0) return
-
-        const cacheKey = `verified_chapters_${comicId}_${maxChapterId}`
-        const cached = this.loadData(cacheKey)
-        if (cached && typeof cached === "object") {
-            Object.assign(visibleChapters, cached)
-            return
-        }
-
-        const hiddenIds = []
-        for (let chapterId = 0; chapterId <= maxChapterId; chapterId++) {
-            if (!visibleChapters[String(chapterId)]) hiddenIds.push(chapterId)
-        }
-
-        const verified = {}
-        const batchSize = 8
-        for (let offset = 0; offset < hiddenIds.length; offset += batchSize) {
-            const batch = hiddenIds.slice(offset, offset + batchSize)
-            const results = await Promise.all(batch.map(async (chapterId) => {
-                try {
-                    const url = `${this.baseUrl}/novel${comicId}/chapter${chapterId}.html`
-                    const response = await Network.get(url, this.requestHeaders)
-                    if (response.status !== 200) return null
-
-                    const chapterDoc = new HtmlDocument(response.body)
-                    const title = chapterDoc.querySelector("a.chapter-title")?.text.trim() || ""
-                    const hasImages = chapterDoc.querySelectorAll(".chapter-content img").length > 0
-                    chapterDoc.dispose()
-                    if (!title || !hasImages) return null
-                    return [String(chapterId), title]
-                } catch (_) {
-                    return null
-                }
-            }))
-
-            for (const item of results) {
-                if (item) verified[item[0]] = item[1]
-            }
-        }
-
-        Object.assign(visibleChapters, verified)
-        this.saveData(cacheKey, verified)
     }
 
     category = {
@@ -242,7 +330,16 @@ class BaiLuoBoCatalog extends ComicSource {
                 }
             }
 
-            await this._loadVerifiedHiddenChapters(id, visibleChapters, maxChapterId)
+            // The site collapses older entries and does not expose a complete catalog in
+            // the initial HTML. Use the audited canonical chain for supported titles so
+            // Venera does not need to issue more than a hundred requests on every open.
+            const staticTitles = this.staticChapterCatalogs[String(id)]
+            if (staticTitles) {
+                for (let chapterId = 0; chapterId < staticTitles.length; chapterId++) {
+                    visibleChapters[String(chapterId)] = staticTitles[chapterId]
+                }
+                maxChapterId = Math.max(maxChapterId, staticTitles.length - 1)
+            }
 
             const chapters = {}
             for (let chapterId = 0; chapterId <= maxChapterId; chapterId++) {
