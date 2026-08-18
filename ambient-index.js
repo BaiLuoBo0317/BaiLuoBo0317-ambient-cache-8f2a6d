@@ -3,7 +3,7 @@ class BaiLuoBoCatalog extends ComicSource {
 
     key = "blb0317_catalog_8f2a6d"
 
-    version = "1.0.2"
+    version = "1.0.3"
 
     minAppVersion = "1.4.0"
 
@@ -88,6 +88,51 @@ class BaiLuoBoCatalog extends ComicSource {
             if (pageMatch) maxPage = Math.max(maxPage, Number(pageMatch[1]) + 1)
         }
         return { searchId, maxPage }
+    }
+
+    async _loadVerifiedHiddenChapters(comicId, visibleChapters, maxChapterId) {
+        if (maxChapterId < 0) return
+
+        const cacheKey = `verified_chapters_${comicId}_${maxChapterId}`
+        const cached = this.loadData(cacheKey)
+        if (cached && typeof cached === "object") {
+            Object.assign(visibleChapters, cached)
+            return
+        }
+
+        const hiddenIds = []
+        for (let chapterId = 0; chapterId <= maxChapterId; chapterId++) {
+            if (!visibleChapters[String(chapterId)]) hiddenIds.push(chapterId)
+        }
+
+        const verified = {}
+        const batchSize = 8
+        for (let offset = 0; offset < hiddenIds.length; offset += batchSize) {
+            const batch = hiddenIds.slice(offset, offset + batchSize)
+            const results = await Promise.all(batch.map(async (chapterId) => {
+                try {
+                    const url = `${this.baseUrl}/novel${comicId}/chapter${chapterId}.html`
+                    const response = await Network.get(url, this.requestHeaders)
+                    if (response.status !== 200) return null
+
+                    const chapterDoc = new HtmlDocument(response.body)
+                    const title = chapterDoc.querySelector("a.chapter-title")?.text.trim() || ""
+                    const hasImages = chapterDoc.querySelectorAll(".chapter-content img").length > 0
+                    chapterDoc.dispose()
+                    if (!title || !hasImages) return null
+                    return [String(chapterId), title]
+                } catch (_) {
+                    return null
+                }
+            }))
+
+            for (const item of results) {
+                if (item) verified[item[0]] = item[1]
+            }
+        }
+
+        Object.assign(visibleChapters, verified)
+        this.saveData(cacheKey, verified)
     }
 
     category = {
@@ -197,10 +242,14 @@ class BaiLuoBoCatalog extends ComicSource {
                 }
             }
 
+            await this._loadVerifiedHiddenChapters(id, visibleChapters, maxChapterId)
+
             const chapters = {}
             for (let chapterId = 0; chapterId <= maxChapterId; chapterId++) {
-                const id = String(chapterId)
-                chapters[id] = visibleChapters[id] || `章节 ${chapterId + 1}`
+                const chapterIdText = String(chapterId)
+                if (visibleChapters[chapterIdText]) {
+                    chapters[chapterIdText] = visibleChapters[chapterIdText]
+                }
             }
 
             const tags = {}
